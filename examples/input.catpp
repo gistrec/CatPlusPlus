@@ -1,0 +1,6 @@
+int32 first;
+first = 10;
+
+int64 second = 5;
+
+int64 result = first + second + 5;
