@@ -1,6 +1,12 @@
-int32 first;
-first = 10;
+int32 first = 10;
 
-int64 second = 5;
+int32 second;
+second = 5;
 
-int64 result = first + second + 5;
+int32 result;
+
+if (first + second == 5) {
+    result = 1;
+} else {
+    result = 0;
+}

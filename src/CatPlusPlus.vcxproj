@@ -120,10 +120,11 @@
     <ClInclude Include="Token.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CatPlusPlus.cpp" />
     <ClCompile Include="LexicalAnalyzer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="input.catpp" />
+    <None Include="..\examples\input.catpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

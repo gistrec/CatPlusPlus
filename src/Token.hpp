@@ -13,6 +13,6 @@ struct Token {
     LexemesName name;
     LexemeName identifier;
 
-    Token(LexemesName name, LexemeName identifier) :
+    Token(LexemesName name, LexemeName identifier)
         : name(name), identifier(identifier) {};
 };

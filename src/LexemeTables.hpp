@@ -55,13 +55,21 @@ enum VariableType { int32, int64, float32, double64 };
  */
 struct Variable : Lexeme {
     string name;
-    bool init;
+    bool init = false;
     VariableType type;
-    unsigned char value[8]; /// 8 байт - максимальный размер переменной
+	string value;
+
+	Variable(string name) : name(name) {};
 };
 
+/**
+ * Константа
+ * @param value - значение константы
+ * @param type  - тип значения
+ */
 struct Constant : Lexeme {
-    string name;
+    string value;
     VariableType type;
-    unsigned char value[8]; // 8 байт - максимальный размер константы
+
+	Constant(string value) : value(value) {};
 };

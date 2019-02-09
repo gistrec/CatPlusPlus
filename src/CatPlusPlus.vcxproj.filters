@@ -29,9 +29,12 @@
     <ClCompile Include="LexicalAnalyzer.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="CatPlusPlus.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="input.catpp">
+    <None Include="..\examples\input.catpp">
       <Filter>Файлы ресурсов</Filter>
     </None>
   </ItemGroup>

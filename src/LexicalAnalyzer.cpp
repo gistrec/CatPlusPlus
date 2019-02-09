@@ -5,27 +5,29 @@ LexicalAnalyzer::LexicalAnalyzer() {
     /// Добавляем ключевые слова
     auto keywords = { "if", "else", "for", "while", "int32", "int64", "float32", "double64" };
     for (auto &keyword : keywords) {
-        lexemsTable["Keywords"].push_back(new Keyword(keyword));
+        lexemesTables["Keywords"].push_back(new Keyword(keyword));
     }
 
-    auto delimiters = { "\n", " ", "{", "}", ";" };
+    auto delimiters = { "\n", " ", "{", "}", "(", ")", ";" };
     for (auto &delimiter : delimiters) {
-        lexemsTable["Delimeters"].push_back(new Delimiter(delimiter));
+        lexemesTables["Delimeters"].push_back(new Delimiter(delimiter));
     }
 
     /// Добавляем арифметические знаки
-    lexemsTable["ArithmeticSigns"] = {
-        new ArithmeticSign("+", 0),
-        new ArithmeticSign("-", 0),
-        new ArithmeticSign("*", 1),
-        new ArithmeticSign("/", 1),
-        new ArithmeticSign("==", 2),
-        new ArithmeticSign("=",  3)
+    lexemesTables["ArithmeticSigns"] = {
+        new ArithmeticSign("=",  0),
+        new ArithmeticSign("==", 1),
+        new ArithmeticSign("+", 2),
+        new ArithmeticSign("-", 2),
+        new ArithmeticSign("*", 3),
+        new ArithmeticSign("/", 3),
     };
+    lexemesTables["Variables"] = {};
+    lexemesTables["Constants"] = {};
 }
 
 LexicalAnalyzer::~LexicalAnalyzer() {
-    for (auto &lexemTable : lexemsTable) {
+    for (auto &lexemTable : lexemesTables) {
         for (auto &lexem : lexemTable.second) {
             delete lexem;
         }
@@ -43,7 +45,7 @@ void LexicalAnalyzer::parseString(string file) {
     while (finish != file.end()) {
         // Получаем итератор на разделитель
         finish = std::find_if(begin, file.end(), [&](char symbol) {
-            for (auto delimeter : lexemsTable["Delimeters"]) {
+            for (auto delimeter : lexemesTables["Delimeters"]) {
                 /// Разделитель - один символ (нулевой), представленный в виде строки
                 if (((Delimiter*) delimeter)->identifier[0] == symbol) return true;
             }
@@ -55,6 +57,7 @@ void LexicalAnalyzer::parseString(string file) {
 
         // Если не достигнут конец файла
         if (finish != file.end()) {
+            string delimetr(finish, finish + 1);
             parseToken(string(finish, finish + 1)); // Добавляем разделитель
             begin = finish + 1;
         }
@@ -67,20 +70,22 @@ void LexicalAnalyzer::parseString(string file) {
  * Иначе это новая переменная
  */
 void LexicalAnalyzer::parseToken(string str) {
-    for (auto &keyword : lexemsTable["Keywords"]) {
-        if (((Keyword*)keyword)->identifier == str) {
+    if (str.empty() || str == " " || str == "\n") return;
+
+    for (auto &keyword : lexemesTables["Keywords"]) {
+        if (((Keyword*) keyword)->identifier == str) {
             tokens.push_back(Token("Keywords", str));
             return;
         }
     }
-    for (auto &keyword : lexemsTable["Delimeters"]) {
-        if (((Keyword*)keyword)->identifier == str) {
+    for (auto &delimeter : lexemesTables["Delimeters"]) {
+        if (((Delimiter*) delimeter)->identifier == str) {
             tokens.push_back(Token("Delimeters", str));
             return;
         }
     }
-    for (auto &keyword : lexemsTable["ArithmeticSigns"]) {
-        if (((Keyword*)keyword)->identifier == str) {
+    for (auto &sign : lexemesTables["ArithmeticSigns"]) {
+        if (((ArithmeticSign*) sign)->identifier == str) {
             tokens.push_back(Token("ArithmeticSigns", str));
             return;
         }
@@ -89,19 +94,42 @@ void LexicalAnalyzer::parseToken(string str) {
     // на данном этапе лексема может быть либо числом (константой), либо переменной
     // Проверка на то, что строка состоит только из чисел
     if (std::all_of(str.begin(), str.end(), ::isdigit)) {
-        // int number = std::stoll(str);
-        // TODO: добавить константу
+        if (!getConstant(str)) addConstant(str);
+        tokens.push_back(Token("Constants", str));
     } else {
-        // TODO: добавить переменную
+        if (!getVariable(str)) addVariable(str);
+        tokens.push_back(Token("Variables", str));
     }
-
 }
 
-#include <fstream>
-int main() {
-    std::ifstream input("input.catpp");
-    LexicalAnalyzer analyzer;
-    input >> analyzer;
-    system("pause");
-    return 0;
+Variable* LexicalAnalyzer::getVariable(string name) {
+    auto& vars = lexemesTables["Variables"];
+    auto result = std::find_if(vars.begin(), vars.end(), [&] (Lexeme* &lexeme) {
+        // Если имена переменных совпадают - то переменная найдена
+        if (((Variable *) lexeme)->name == name) return true;
+        else return false;
+    });
+    if (result == vars.end()) return 0;
+    else return (Variable*) *result;
+}
+
+void LexicalAnalyzer::addVariable(string name) {
+    assert(getVariable(name) == 0 && "Переменная уже добавлена в таблицу");
+    lexemesTables["Variables"].push_back(new Variable(name));
+}
+
+Constant* LexicalAnalyzer::getConstant(string value) {
+    auto& consts = lexemesTables["Constants"];
+    auto result = std::find_if(consts.begin(), consts.end(), [&](Lexeme* &lexeme) {
+        // Если имена переменных совпадают - то переменная найдена
+        if (((Constant *)lexeme)->value == value) return true;
+        else return false;
+    });
+    if (result == consts.end()) return 0;
+    else return (Constant*) *result;
+}
+
+void LexicalAnalyzer::addConstant(string value) {
+    assert(getConstant(value) == 0 && "Константа уже добавлена в таблицу");
+    lexemesTables["Constants"].push_back(new Constant(value));
 }

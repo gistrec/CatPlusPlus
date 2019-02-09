@@ -3,6 +3,7 @@
 #include <list>
 #include <vector>
 #include <string>
+#include <cassert>
 #include <algorithm>
 
 #include "Token.hpp"
@@ -31,7 +32,7 @@ typedef vector<Lexeme*> LexemesTable;
 class LexicalAnalyzer {
 private:
     /// Набор таблиц с лексемами
-    map<LexemesName, LexemesTable> lexemsTable;
+    map<LexemesName, LexemesTable> lexemesTables;
 
     /// Список токенов
     list<Token> tokens;
@@ -45,16 +46,10 @@ public:
     void parseString(string);
     /// Получаем токен из строки и добавляем его в список токенов
     void parseToken(string);
-};
 
-/**
- * Считываем весь файл и передаем в функцию parseString
- */
-istream& operator >> (istream &in, LexicalAnalyzer &analyzer) {
-    string line;
+    Variable* getVariable(string name); /// Получаем переменную по id
+    void addVariable(string name);      /// Добавляем переменную в таблицу переменных
 
-    string file((istreambuf_iterator<char>(in)), istreambuf_iterator<char>());
-    analyzer.parseString(file);
-
-    return in;
+    Constant* getConstant(string value); /// Получаем константу по id
+    void addConstant(string value);       /// Добавляем константу  в таблицу констант
 };
