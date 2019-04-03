@@ -8,11 +8,11 @@ namespace Microsoft {
 
 			static std::wstring ToString(const enum LexemeType &type) {
 				switch (type) {
-					case LexemeType::Keyword:        return L"Keyword";
-					case LexemeType::ArithmeticSign: return L"ArithmeticSign";
-					case LexemeType::Delimiter:      return L"Delimiter";
-					case LexemeType::Constant:       return L"Constant";
-					case LexemeType::Variable:       return L"Variable";
+					case LexemeType::Keyword:   return L"Keyword";
+					case LexemeType::Sign:      return L"Sign";
+					case LexemeType::Delimiter: return L"Delimiter";
+					case LexemeType::Const:     return L"Const";
+					case LexemeType::Var:       return L"Var";
 					default: return L"No translation";
 				}
 			}

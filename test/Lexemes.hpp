@@ -6,31 +6,31 @@
 
 TEST_CLASS(LexemesTest) {
 public:
-
+	/** Проверка функций, которые возвращают table_id и position*/
 	TEST_METHOD(SimpleLexemeTest) {
-		Lexeme lexeme(LexemeType::Keyword);
-		Assert::AreEqual(lexeme.getType(), LexemeType::Keyword);
+		Lexeme lexeme(LexemeType::Keyword, KeywordType::If);
+
+		Assert::AreEqual(lexeme.getType(),    (int)LexemeType::Keyword);
+		Assert::AreEqual(lexeme.getSubtype(), (int)KeywordType::If);
 	}
 	
 	TEST_METHOD(LexemeTest) {
-		Keyword k_lexeme(KeywordType::If);
-		Assert::AreEqual(k_lexeme.getType(),    LexemeType::Keyword);
-		Assert::AreEqual(k_lexeme.getKeyword(), KeywordType::If);
+		Lexeme sign_lexeme(LexemeType::Sign, SignType::Add);
 
-		ArithmeticSign s_lexeme(SignType::Add, 0);
-		Assert::AreEqual(s_lexeme.getType(), LexemeType::ArithmeticSign);
-		Assert::AreEqual(s_lexeme.sign, SignType::Add);
-		Assert::AreEqual(s_lexeme.getPriority(), 0);
+		Assert::AreEqual(sign_lexeme.getType(),    (int)LexemeType::Sign);
+		Assert::AreEqual(sign_lexeme.getSubtype(), (int)SignType::Add);
 
-		Delimiter d_lexeme(DelimiterType::Space);
-		Assert::AreEqual(d_lexeme.getType(),      LexemeType::Delimiter);
-		Assert::AreEqual(d_lexeme.getDelimeter(), DelimiterType::Space);
+		Lexeme delim_lexeme(LexemeType::Delimiter, DelimiterType::Space);
+		Assert::AreEqual(delim_lexeme.getType(),    (int)LexemeType::Delimiter);
+		Assert::AreEqual(delim_lexeme.getSubtype(), (int)DelimiterType::Space);
 	}
 
 	TEST_METHOD(VariableLexemeTest) {
-		Variable var;
+		string name = "my_variable";
+		Variable var(name);
 
-		Assert::AreEqual(var.getType(),    LexemeType::Variable);
+		Assert::AreEqual(var.getName(),    name);
+		Assert::AreEqual(var.getType(),    (int)LexemeType::Var);
 		Assert::AreEqual(var.getVarType(), VariableType::Undefined);
 		Assert::AreEqual(var.isInit(),     false);
 		Assert::AreEqual(var.getData(),    (size_t) 0);
@@ -39,15 +39,16 @@ public:
 		var.setData(12);
 
 		Assert::AreEqual(var.getVarType(), VariableType::Int);
-		Assert::AreEqual(var.getData(), (size_t) 12);
+		Assert::AreEqual(var.getData(),    (size_t) 12);
 	}
 
 	TEST_METHOD(ConstantLexemeTest) {
-		Constant lexeme(VariableType::Int, 5);
+		string name = "my_constant";
+		Constant constant(name, VariableType::Int, 5);
 
-		Assert::AreEqual(lexeme.getType(),    LexemeType::Constant);
-		Assert::AreEqual(lexeme.getVarType(), VariableType::Int);
-		Assert::AreEqual(lexeme.getData(),    (size_t) 5);
+		Assert::AreEqual(constant.getName(),    name);
+		Assert::AreEqual(constant.getType(),    (int)LexemeType::Const);
+		Assert::AreEqual(constant.getVarType(), VariableType::Int);
+		Assert::AreEqual(constant.getData(),    (size_t) 5);
 	}
-	
 };

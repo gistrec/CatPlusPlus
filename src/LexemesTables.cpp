@@ -3,55 +3,83 @@
 LexemesTables::LexemesTables() {
 	// Добавляем ключевые слова
 	keywords = {
-		{KeywordType::If,    Keyword(KeywordType::If)},
-		{KeywordType::Else,  Keyword(KeywordType::Else)},
-		{KeywordType::For,   Keyword(KeywordType::For)},
-		{KeywordType::While, Keyword(KeywordType::While)},
+		{KeywordType::If,    Lexeme(KeywordType::If,   0)},
+		{KeywordType::Else,  Lexeme(KeywordType::Else, 1)},
+		{KeywordType::For,   Lexeme(KeywordType::For,  2)},
+		{KeywordType::While, Lexeme(KeywordType::While, 3)},
 	};
 
 	// Добавляем знаки
 	signs = {
-		{SignType::Add, ArithmeticSign(SignType::Add, 2)},         //   +
-		{SignType::Sub, ArithmeticSign(SignType::Sub, 2)},         //   -
-		{SignType::Mul, ArithmeticSign(SignType::Mul, 3)},         //   *
-		{SignType::Div, ArithmeticSign(SignType::Div, 3)},         //   /
-		{SignType::isEqual, ArithmeticSign(SignType::isEqual, 1)}, //   ==
-		{SignType::Equal,   ArithmeticSign(SignType::Equal, 0)},   //   =
+		{SignType::Add,     Lexeme(SignType::Add,     0)}, //   +
+		{SignType::Sub,     Lexeme(SignType::Sub,     1)}, //   -
+		{SignType::Mul,     Lexeme(SignType::Mul,     2)}, //   *
+		{SignType::Div,     Lexeme(SignType::Div,     3)}, //   /
+		{SignType::isEqual, Lexeme(SignType::isEqual, 4)}, //   ==
+		{SignType::Equal,   Lexeme(SignType::Equal,   5)}, //   =
 	};
 
 	// Добавляем разделители
 	delimiters = {
-		{DelimiterType::OpenBracket,  Delimiter(DelimiterType::OpenBracket)},   //   (
-		{DelimiterType::CloseBracket, Delimiter(DelimiterType::CloseBracket)},  //   )
-		{DelimiterType::Semicolon, Delimiter(DelimiterType::Semicolon)},        //   ;
-		{DelimiterType::Space,     Delimiter(DelimiterType::Space)},            //   Пробел
+		{DelimiterType::OpenBracket,  Lexeme(DelimiterType::OpenBracket,  0)}, //  (
+		{DelimiterType::CloseBracket, Lexeme(DelimiterType::CloseBracket, 1)}, //  )
+		{DelimiterType::Space,        Lexeme(DelimiterType::Space,        2)}, //  Пробел
+		{DelimiterType::Semicolon,    Lexeme(DelimiterType::Semicolon,    3)}, //  ;
 	};
 }
 
-Lexeme* LexemesTables::findConstanLexeme(const string& name) {
+Lexeme* LexemesTables::getLexeme(const string& name) {
 	if (name == "if") return &(keywords.at(KeywordType::If));
 	if (name == " ")  return &(delimiters.at(DelimiterType::Space));
 	return nullptr;
 }
-
-Lexeme* LexemesTables::getLexeme(LexemeType type, int subtype) {
+Lexeme* LexemesTables::getLexeme(int type, int subtype) {
 	switch (type) {
-		case LexemeType::Keyword:        return &(keywords.at((KeywordType) subtype));
-		case LexemeType::Delimiter:      return &(delimiters.at((DelimiterType) subtype));
-		case LexemeType::ArithmeticSign: return &(signs.at((SignType) subtype));
+		case LexemeType::Keyword:   return &(keywords.at((KeywordType) subtype));
+		case LexemeType::Delimiter: return &(delimiters.at((DelimiterType) subtype));
+		case LexemeType::Sign:      return &(signs.at((SignType) subtype));
 	}
 	return nullptr;
 }
 
-void LexemesTables::addVariable(const string& name, Variable &variable) {
-	variables[name] = variable;
+
+int LexemesTables::addVariable(Variable &variable) {
+	// TODO: нельзя добавлять существующую переменную
+	variables.push_back(variable);
+	return variables.size() - 1;
 }
 
-Variable* LexemesTables::getVariable(const string& name) const {
-	if (variables.find(name) == variables.end()) return nullptr;
+Variable* LexemesTables::getVariable(int position) {
+	if (variables.size() < position) return nullptr;
 
-	return (Variable *) &variables.at(name);
+	return &(variables[position]);
 }
+Variable* LexemesTables::getVariable(string name)  {
+	for (auto &variable : variables) {
+		if (variable.getName() == name) return &variable;
+	}
+	return nullptr;
+};
+
+int LexemesTables::addConstant(Constant &constant) {
+	constants.push_back(constant);
+	return constants.size() - 1;
+}
+
+Constant* LexemesTables::getConstant(int position)  {
+	if (constants.size() < position) return nullptr;
+
+	return &constants[position];
+}
+Constant* LexemesTables::getConstant(string name) {
+	for (auto &constant : constants) {
+		if (constant.getName() == name) return &constant;
+	}
+	return nullptr;
+}
+
+
+
 
 int main() {
 	return 0;

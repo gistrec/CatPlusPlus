@@ -1,113 +1,70 @@
 #pragma once
+#include <string>
+
+using std::string;
 
 /**
  * Типы лексем
- * Keyword - ключевое слово 
- * ArithmeticSign - арифметический знак
+ * Keyword   - ключевое слово 
  * Delimiter - разделитель
- * Variable  - переменная
- * Constant  - константа
+ * Sign  - арифметический знак
+ * Const - константа
+ * Var   - переменная
  */
-enum class LexemeType { Keyword, ArithmeticSign, Delimiter, Variable, Constant };
+enum LexemeType : int { Keyword = 0, Sign = 1, Delimiter = 2, Var = 3, Const = 4};
 struct Lexeme {
-	LexemeType type;
+	int type;
+	int subtype; // Одно из KeywordType::, SignType::, DelimiterType::
 
-	Lexeme(LexemeType type) : type(type) {};
-
-	LexemeType getType() {
-		return type;
-	}
-};
-
-
-/**
- * Ключевые/зарезервированные слова
- */
-enum class KeywordType : char { If, Else, For, While };
-struct Keyword : Lexeme {
-	KeywordType keyword;
-
-    Keyword(KeywordType keyword) :
-		Lexeme(LexemeType::Keyword),
-		keyword(keyword)
+	Lexeme(int type, int subtype) :
+		type(type),
+		subtype(subtype)
 	{};
 
-	KeywordType getKeyword() {
-		return keyword;
-	}
+	int getType()    { return type; }
+	int getSubtype() { return subtype; }
 };
 
-/**
- * Арифметические знаки
- * Например: +, -, *, /
- */
-enum class SignType : char { Add, Sub, Mul, Div, Equal, isEqual };
-struct ArithmeticSign : public Lexeme {
-	SignType sign;
-	int priority;
 
-	ArithmeticSign(SignType sign, int priority) :
-		Lexeme(LexemeType::ArithmeticSign),
-		priority(priority),
-        sign(sign)
-	{};
 
-	int getPriority() {
-		return priority;
-	}
-};
+enum KeywordType   : int { If, Else, For, While };
+enum SignType      : int { Add, Sub, Mul, Div, Equal, isEqual };
+enum DelimiterType : int { OpenBracket, CloseBracket, Space, Semicolon };
 
-/**
- * Разделители
- * Например: ], }, ;
- * @param identifier - идентефикатор лексемы
- */
-enum class DelimiterType : char { OpenBracket, CloseBracket, Space, Semicolon };
-struct Delimiter : public Lexeme {
-	DelimiterType delimeter;
+enum VariableType  : int { Undefined, Int, Float };
 
-    Delimiter(DelimiterType delimeter) :
-		Lexeme(LexemeType::Delimiter),
-		delimeter(delimeter)
-	{};
-
-	DelimiterType getDelimeter() {
-		return delimeter;
-	}
-};
 
 
 /**
  * Переменная
+ * @constructor name - название переменной
+ * @constructor vartype - тип значения        ?? Знаем ли мы тип во время лексического анализа
  */
-enum class VariableType { Undefined, Int, Float };
-struct Variable : Lexeme {
+struct Variable : public Lexeme {
 	VariableType vartype;  // Тип переменной
+	string name;
 
     bool init;   // Инициализированна ли переменная
 	size_t data; // Данные переменной
 
-	Variable(VariableType vartype = VariableType::Undefined) :
-		Lexeme(LexemeType::Variable),
+	Variable(string name, VariableType vartype = VariableType::Undefined) :
+		Lexeme(LexemeType::Var, 0),
 		vartype(vartype),
+		name(name),
 		init(false),
 		data(0)
 	{};
 
-	bool isInit() {
-		return init;
-	}
+	/** Геттеры */
+	bool         isInit()     {  return init;     }
 
-	VariableType getVarType() {
-		return vartype;
-	}
+	VariableType getVarType() {  return vartype;  }
+	string       getName()    {  return name;     }
+	size_t       getData()    {  return data;     }
 
+	/** Сеттеры */
 	void setVarType(VariableType new_vartype) {
 		vartype = new_vartype;
-	}
-
-	size_t getData() {
-		return data;
 	}
 
 	void setData(size_t new_data) {
@@ -118,25 +75,31 @@ struct Variable : Lexeme {
 
 /**
  * Константа
- * @param value - значение константы
- * @param type  - тип значения
+ * @constructor name - название константы
+ * @constructor vartype - тип значения       ?? Знаем ли мы тип во время лексического анализа
+ * @constructor data - данные константы      ?? Знаем ли мы данные во время лексического анализа 
  */
-struct Constant : Lexeme {
+struct Constant : public Lexeme {
     VariableType vartype;
+	string name;
 
-	size_t data; // Данные переменной
+	bool   init;  // Инициализированна ли константа
+	size_t data;  // Данные переменной
 
-	Constant(VariableType vartype, size_t data) :
-		Lexeme(LexemeType::Constant),
+	Constant(string name, VariableType vartype = VariableType::Undefined, size_t data = 0) :
+		Lexeme(LexemeType::Const, 0),
+		name(name),
 		vartype(vartype),
+		init(false),
 		data(data)
 	{};
 
-	VariableType getVarType() {
-		return vartype;
-	}
+	/** Геттеры */
+	bool         isInit()     {  return init;     }
 
-	size_t getData() {
-		return data;
-	}
+	VariableType getVarType() {  return vartype;  }
+	string       getName()    {  return name;     }
+	size_t       getData()    {  return data;     }
+
+	/** Сеттеры */
 };

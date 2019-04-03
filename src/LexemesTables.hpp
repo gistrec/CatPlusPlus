@@ -1,5 +1,5 @@
 #pragma once
-#include <functional>
+#include <cassert>
 #include <string>
 #include <vector>
 #include <map>
@@ -14,29 +14,31 @@ using std::map;
 
 class LexemesTables {
 public:
-	map<KeywordType, Keyword> keywords;
-	map<DelimiterType, Delimiter> delimiters;
-	map<SignType, ArithmeticSign> signs;
+	map<KeywordType,   Lexeme> keywords;   // Ключевые слова
+	map<DelimiterType, Lexeme> delimiters; // Разделители
+	map<SignType,      Lexeme> signs;      // Арифметические знаки
 
-	map<string, Variable> variables;
-	map<string, Constant> constants;
+	vector<Variable> variables; // Переменные
+	vector<Constant> constants; // Константы
 
 	LexemesTables();
 
 	/**
-	 * Поиск лексемы среди константных таблиц по строке
-	 * @param name - строка, например 'if' или 'int'
+	 * Поиск лексемы среди константных таблиц
+	 * По строке или номеру таблицы и позиции в таблице
 	 */
-	/// TODO TODO TODO TODO TODOD
-	Lexeme* findConstanLexeme(const string& name);
-	
-	/**
-	 * Поиск лексемы по типу и подтипу
-	 * @param type - тип лексемы
-	 * @param subtype - подтип (например, Keyword::If или Delimiter::Space)
-	 */
-	Lexeme* getLexeme(LexemeType type, int subtype);
+	Lexeme* getLexeme(const string& name);
+	Lexeme* getLexeme(int type, int subtype);
 
-	void addVariable(const string& name, Variable &constant);
-	Variable* getVariable(const string& name) const;
+	/**
+	 * Добавляем/получаем переменную в таблице переменных
+	 * int - позиция в таблице
+	 */
+	int addVariable(Variable &variable);
+	Variable* getVariable(int position);
+	Variable* getVariable(string name);
+
+	int addConstant(Constant &constant);
+	Constant* getConstant(int position);
+	Constant* getConstant(string name);
 };
