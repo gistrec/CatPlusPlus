@@ -24,9 +24,12 @@ struct Lexeme {
 		name(name)
 	{};
 
-	int    getType()    { return type;    }
-	int    getSubtype() { return subtype; }
-	string getName()    { return name;    }
+	int    getType()     { return type;    }
+	int    getSubtype()  { return subtype; }
+	int    getPosition() { return subtype; }
+	string getName()     { return name;    }
+
+	void setPosition(int pos) { subtype = pos; }
 };
 
 

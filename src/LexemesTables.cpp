@@ -53,6 +53,7 @@ Lexeme* LexemesTables::getLexeme(int type, int subtype) {
 
 int LexemesTables::addVariable(Variable &variable) {
 	// TODO: нельзя добавлять существующую переменную
+	variable.subtype = variables.size(); // Устанавливаем позицию в таблице
 	variables.push_back(variable);
 	return variables.size() - 1;
 }
@@ -70,6 +71,8 @@ Variable* LexemesTables::getVariable(string name)  {
 };
 
 int LexemesTables::addConstant(Constant &constant) {
+	// TODO: Нельзя добавлять существующую переменную
+	constant.subtype = constants.size(); // Устанавливаем позицию в таблице
 	constants.push_back(constant);
 	return constants.size() - 1;
 }
