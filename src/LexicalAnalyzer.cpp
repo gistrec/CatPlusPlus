@@ -2,28 +2,7 @@
 #include "LexicalAnalyzer.hpp"
 
 LexicalAnalyzer::LexicalAnalyzer() {
-    /// Добавляем ключевые слова
-    auto keywords = { "if", "else", "for", "while", "int32", "int64", "float32", "double64" };
-    for (auto &keyword : keywords) {
-        lexemesTables["Keywords"].push_back(new Keyword(keyword));
-    }
-
-    auto delimiters = { "\n", " ", "{", "}", "(", ")", ";" };
-    for (auto &delimiter : delimiters) {
-        lexemesTables["Delimeters"].push_back(new Delimiter(delimiter));
-    }
-
-    /// Добавляем арифметические знаки
-    lexemesTables["ArithmeticSigns"] = {
-        new ArithmeticSign("=",  0),
-        new ArithmeticSign("==", 1),
-        new ArithmeticSign("+", 2),
-        new ArithmeticSign("-", 2),
-        new ArithmeticSign("*", 3),
-        new ArithmeticSign("/", 3),
-    };
-    lexemesTables["Variables"] = {};
-    lexemesTables["Constants"] = {};
+    
 }
 
 LexicalAnalyzer::~LexicalAnalyzer() {

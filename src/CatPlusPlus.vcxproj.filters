@@ -15,21 +15,15 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="LexicalAnalyzer.hpp">
+    <ClInclude Include="Lexemes.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="LexemeTables.hpp">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="Token.hpp">
+    <ClInclude Include="LexemesTables.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="LexicalAnalyzer.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="CatPlusPlus.cpp">
+    <ClCompile Include="LexemesTables.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>

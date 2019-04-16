@@ -7,7 +7,7 @@
 #include <algorithm>
 
 #include "Token.hpp"
-#include "LexemeTables.hpp"
+#include "Lexemes.hpp"
 
 using std::map;
 using std::list;
