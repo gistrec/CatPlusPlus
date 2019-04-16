@@ -14,9 +14,9 @@ using std::map;
 
 class LexemesTables {
 public:
-	map<KeywordType,   Lexeme> keywords;   // Ключевые слова
-	map<DelimiterType, Lexeme> delimiters; // Разделители
-	map<SignType,      Lexeme> signs;      // Арифметические знаки
+	vector<Lexeme> keywords;   // Ключевые слова
+	vector<Lexeme> delimiters; // Разделители
+	vector<Lexeme> signs;      // Арифметические знаки
 
 	vector<Variable> variables; // Переменные
 	vector<Constant> constants; // Константы

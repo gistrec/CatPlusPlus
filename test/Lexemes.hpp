@@ -8,19 +8,23 @@ TEST_CLASS(LexemesTest) {
 public:
 	/** Проверка функций, которые возвращают table_id и position*/
 	TEST_METHOD(SimpleLexemeTest) {
-		Lexeme lexeme(LexemeType::Keyword, KeywordType::If);
+		string word = "if";
+		Lexeme lexeme(LexemeType::Keyword, KeywordType::If, word);
 
 		Assert::AreEqual(lexeme.getType(),    (int)LexemeType::Keyword);
 		Assert::AreEqual(lexeme.getSubtype(), (int)KeywordType::If);
+		Assert::AreEqual(lexeme.getName(),    word);
 	}
 	
 	TEST_METHOD(LexemeTest) {
-		Lexeme sign_lexeme(LexemeType::Sign, SignType::Add);
+		string word;
+		Lexeme sign_lexeme(LexemeType::Sign, SignType::Add, word);
 
 		Assert::AreEqual(sign_lexeme.getType(),    (int)LexemeType::Sign);
 		Assert::AreEqual(sign_lexeme.getSubtype(), (int)SignType::Add);
 
-		Lexeme delim_lexeme(LexemeType::Delimiter, DelimiterType::Space);
+		word = " ";
+		Lexeme delim_lexeme(LexemeType::Delimiter, DelimiterType::Space, word);
 		Assert::AreEqual(delim_lexeme.getType(),    (int)LexemeType::Delimiter);
 		Assert::AreEqual(delim_lexeme.getSubtype(), (int)DelimiterType::Space);
 	}

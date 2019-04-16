@@ -3,41 +3,49 @@
 LexemesTables::LexemesTables() {
 	// Добавляем ключевые слова
 	keywords = {
-		{KeywordType::If,    Lexeme(KeywordType::If,   0)},
-		{KeywordType::Else,  Lexeme(KeywordType::Else, 1)},
-		{KeywordType::For,   Lexeme(KeywordType::For,  2)},
-		{KeywordType::While, Lexeme(KeywordType::While, 3)},
+		{Lexeme(LexemeType::Keyword, KeywordType::If,    "if"   )},
+		{Lexeme(LexemeType::Keyword, KeywordType::Else,  "else" )},
+		{Lexeme(LexemeType::Keyword, KeywordType::For,   "for"  )},
+		{Lexeme(LexemeType::Keyword, KeywordType::While, "while")},
 	};
 
 	// Добавляем знаки
 	signs = {
-		{SignType::Add,     Lexeme(SignType::Add,     0)}, //   +
-		{SignType::Sub,     Lexeme(SignType::Sub,     1)}, //   -
-		{SignType::Mul,     Lexeme(SignType::Mul,     2)}, //   *
-		{SignType::Div,     Lexeme(SignType::Div,     3)}, //   /
-		{SignType::isEqual, Lexeme(SignType::isEqual, 4)}, //   ==
-		{SignType::Equal,   Lexeme(SignType::Equal,   5)}, //   =
+		{Lexeme(LexemeType::Sign, SignType::Add,     "+" )},
+		{Lexeme(LexemeType::Sign, SignType::Sub,     "-" )},
+		{Lexeme(LexemeType::Sign, SignType::Mul,     "*" )},
+		{Lexeme(LexemeType::Sign, SignType::Div,     "/" )},
+		{Lexeme(LexemeType::Sign, SignType::isEqual, "==")},
+		{Lexeme(LexemeType::Sign, SignType::Equal,   "=" )},
 	};
 
 	// Добавляем разделители
 	delimiters = {
-		{DelimiterType::OpenBracket,  Lexeme(DelimiterType::OpenBracket,  0)}, //  (
-		{DelimiterType::CloseBracket, Lexeme(DelimiterType::CloseBracket, 1)}, //  )
-		{DelimiterType::Space,        Lexeme(DelimiterType::Space,        2)}, //  Пробел
-		{DelimiterType::Semicolon,    Lexeme(DelimiterType::Semicolon,    3)}, //  ;
+		{Lexeme(LexemeType::Delimiter, DelimiterType::OpenBracket,  "(")},
+		{Lexeme(LexemeType::Delimiter, DelimiterType::CloseBracket, ")")},
+		{Lexeme(LexemeType::Delimiter, DelimiterType::Space,        " ")},
+		{Lexeme(LexemeType::Delimiter, DelimiterType::Semicolon,    ";")},
 	};
 }
 
 Lexeme* LexemesTables::getLexeme(const string& name) {
-	if (name == "if") return &(keywords.at(KeywordType::If));
-	if (name == " ")  return &(delimiters.at(DelimiterType::Space));
+	for (auto& keyword : keywords) {
+		if (keyword.getName() == name) return &keyword;
+	}
+	for (auto& sign : signs) {
+		if (sign.getName() == name) return &sign;
+	}
+	for (auto& delimiter : delimiters) {
+		if (delimiter.getName() == name) return &delimiter;
+	}
+
 	return nullptr;
 }
 Lexeme* LexemesTables::getLexeme(int type, int subtype) {
 	switch (type) {
-		case LexemeType::Keyword:   return &(keywords.at((KeywordType) subtype));
-		case LexemeType::Delimiter: return &(delimiters.at((DelimiterType) subtype));
-		case LexemeType::Sign:      return &(signs.at((SignType) subtype));
+		case LexemeType::Keyword:   return &keywords.at(subtype);
+		case LexemeType::Delimiter: return &delimiters.at(subtype);
+		case LexemeType::Sign:      return &signs.at(subtype);
 	}
 	return nullptr;
 }
@@ -76,11 +84,4 @@ Constant* LexemesTables::getConstant(string name) {
 		if (constant.getName() == name) return &constant;
 	}
 	return nullptr;
-}
-
-
-
-
-int main() {
-	return 0;
 }

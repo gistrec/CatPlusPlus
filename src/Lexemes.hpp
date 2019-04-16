@@ -5,7 +5,7 @@ using std::string;
 
 /**
  * Типы лексем
- * Keyword   - ключевое слово 
+ * Keyword   - ключевое слово
  * Delimiter - разделитель
  * Sign  - арифметический знак
  * Const - константа
@@ -16,13 +16,17 @@ struct Lexeme {
 	int type;
 	int subtype; // Одно из KeywordType::, SignType::, DelimiterType::
 
-	Lexeme(int type, int subtype) :
+	string name; // Название лексемы
+
+	Lexeme(int type, int subtype, string name) :
 		type(type),
-		subtype(subtype)
+		subtype(subtype),
+		name(name)
 	{};
 
-	int getType()    { return type; }
-	int getSubtype() { return subtype; }
+	int    getType()    { return type;    }
+	int    getSubtype() { return subtype; }
+	string getName()    { return name;    }
 };
 
 
@@ -38,19 +42,17 @@ enum VariableType  : int { Undefined, Int, Float };
 /**
  * Переменная
  * @constructor name - название переменной
- * @constructor vartype - тип значения        ?? Знаем ли мы тип во время лексического анализа
+ * @constructor vartype - тип значения
  */
 struct Variable : public Lexeme {
 	VariableType vartype;  // Тип переменной
-	string name;
 
     bool init;   // Инициализированна ли переменная
 	size_t data; // Данные переменной
 
 	Variable(string name, VariableType vartype = VariableType::Undefined) :
-		Lexeme(LexemeType::Var, 0),
+		Lexeme(LexemeType::Var, 0, name),
 		vartype(vartype),
-		name(name),
 		init(false),
 		data(0)
 	{};
@@ -76,27 +78,21 @@ struct Variable : public Lexeme {
 /**
  * Константа
  * @constructor name - название константы
- * @constructor vartype - тип значения       ?? Знаем ли мы тип во время лексического анализа
- * @constructor data - данные константы      ?? Знаем ли мы данные во время лексического анализа 
+ * @constructor vartype - тип значения
+ * @constructor data - данные константы
  */
 struct Constant : public Lexeme {
     VariableType vartype;
-	string name;
 
-	bool   init;  // Инициализированна ли константа
 	size_t data;  // Данные переменной
 
 	Constant(string name, VariableType vartype = VariableType::Undefined, size_t data = 0) :
-		Lexeme(LexemeType::Const, 0),
-		name(name),
+		Lexeme(LexemeType::Const, 0, name),
 		vartype(vartype),
-		init(false),
 		data(data)
 	{};
 
 	/** Геттеры */
-	bool         isInit()     {  return init;     }
-
 	VariableType getVarType() {  return vartype;  }
 	string       getName()    {  return name;     }
 	size_t       getData()    {  return data;     }
