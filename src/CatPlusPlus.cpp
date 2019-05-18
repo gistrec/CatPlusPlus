@@ -1,21 +1,30 @@
-#include <fstream>
+#include "Scanner.hpp"
 
-#include "LexicalAnalyzer.hpp"
-
-/**
- * Считываем весь файл и передаем в функцию parseString
- */
-istream& operator >> (istream &in, LexicalAnalyzer &analyzer) {
-    string file((istreambuf_iterator<char>(in)), istreambuf_iterator<char>());
-    analyzer.parseString(file);
-
-    return in;
-};
+#include "../test/Utils.hpp" // Для вывода текста
 
 int main() {
-    std::ifstream input("../examples/input.catpp");
-    LexicalAnalyzer analyzer;
-    input >> analyzer;
-    system("pause");
-    return 0;
+	LexemesTables tables;
+	Scanner scanner(tables);
+
+	string text =
+		"int value = 10 ; Init var       \n"
+		"int result     ; Create var     \n"
+		"if (value ?= 5) { ; Check equal \n"
+		"	result = 1                   \n"
+		"} else {                        \n"
+		"	result = 0                   \n"
+		"}";
+	istringstream stream(text);
+
+	vector<tuple<int, int>> tokens; // Токены, которые получили из сканера
+
+	// Пока не достигнут конец файла
+	while (!stream.eof()) {
+		tokens.push_back( scanner.getToken(stream) );
+	}
+
+	std::wcout << Microsoft::VisualStudio::CppUnitTestFramework::ToString(tokens);
+
+	system("pause");
+	return 0;
 }

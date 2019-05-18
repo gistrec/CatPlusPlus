@@ -21,9 +21,15 @@
     <ClInclude Include="LexemesTables.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="Scanner.hpp">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LexemesTables.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="CatPlusPlus.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
