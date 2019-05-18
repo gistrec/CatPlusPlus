@@ -25,5 +25,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="UnitTests.cpp" />
+    <ClCompile Include="Scanner.hpp">
+      <Filter>Тесты</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
