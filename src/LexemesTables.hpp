@@ -10,29 +10,29 @@ using std::string;
 using std::vector;
 using std::pair;
 using std::map;
- 
+
 
 class LexemesTables {
 public:
-	vector<Lexeme> keywords;   // Ключевые слова
-	vector<Lexeme> delimiters; // Разделители
-	vector<Lexeme> signs;      // Арифметические знаки
+	vector<Lexeme> keywords;   // РљР»СЋС‡РµРІС‹Рµ СЃР»РѕРІР°
+	vector<Lexeme> delimiters; // Р Р°Р·РґРµР»РёС‚РµР»Рё
+	vector<Lexeme> signs;      // РђСЂРёС„РјРµС‚РёС‡РµСЃРєРёРµ Р·РЅР°РєРё
 
-	vector<Variable> variables; // Переменные
-	vector<Constant> constants; // Константы
+	vector<Variable> variables; // РџРµСЂРµРјРµРЅРЅС‹Рµ
+	vector<Constant> constants; // РљРѕРЅСЃС‚Р°РЅС‚С‹
 
 	LexemesTables();
 
 	/**
-	 * Поиск лексемы среди константных таблиц
-	 * По строке или номеру таблицы и позиции в таблице
+	 * РџРѕРёСЃРє Р»РµРєСЃРµРјС‹ СЃСЂРµРґРё РєРѕРЅСЃС‚Р°РЅС‚РЅС‹С… С‚Р°Р±Р»РёС†
+	 * РџРѕ СЃС‚СЂРѕРєРµ РёР»Рё РЅРѕРјРµСЂСѓ С‚Р°Р±Р»РёС†С‹ Рё РїРѕР·РёС†РёРё РІ С‚Р°Р±Р»РёС†Рµ
 	 */
 	Lexeme* getLexeme(const string& name);
 	Lexeme* getLexeme(int type, int subtype);
 
 	/**
-	 * Добавляем/получаем переменную в таблице переменных
-	 * int - позиция в таблице
+	 * Р”РѕР±Р°РІР»СЏРµРј/РїРѕР»СѓС‡Р°РµРј РїРµСЂРµРјРµРЅРЅСѓСЋ РІ С‚Р°Р±Р»РёС†Рµ РїРµСЂРµРјРµРЅРЅС‹С…
+	 * int - РїРѕР·РёС†РёСЏ РІ С‚Р°Р±Р»РёС†Рµ
 	 */
 	int addVariable(Variable &variable);
 	Variable* getVariable(int position);

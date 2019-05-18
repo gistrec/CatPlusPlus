@@ -1,14 +1,14 @@
 #include "LexemesTables.hpp"
 
 LexemesTables::LexemesTables() {
-	// Добавляем ключевые слова
+	// Р”РѕР±Р°РІР»СЏРµРј РєР»СЋС‡РµРІС‹Рµ СЃР»РѕРІР°
 	keywords = {
 		{Lexeme(LexemeType::Keyword, KeywordType::Int,   "int"  )},
 		{Lexeme(LexemeType::Keyword, KeywordType::If,    "if"   )},
-		{Lexeme(LexemeType::Keyword, KeywordType::Else,  "else" )},
+		{Lexeme(LexemeType::Keyword, KeywordType::Else,  "else" )}
 	};
 
-	// Добавляем знаки
+	// Р”РѕР±Р°РІР»СЏРµРј Р·РЅР°РєРё
 	signs = {
 		{Lexeme(LexemeType::Sign, SignType::Add,       "+" )},
 		{Lexeme(LexemeType::Sign, SignType::Sub,       "-" )},
@@ -16,10 +16,10 @@ LexemesTables::LexemesTables() {
 		{Lexeme(LexemeType::Sign, SignType::isEqual,   "?=")},
 		{Lexeme(LexemeType::Sign, SignType::isNoEqual, "!=")},
 		{Lexeme(LexemeType::Sign, SignType::isLess,    "<" )},
-		{Lexeme(LexemeType::Sign, SignType::Equal,     "=" )},
+		{Lexeme(LexemeType::Sign, SignType::Equal,     "=" )}
 	};
 
-	// Добавляем разделители
+	// Р”РѕР±Р°РІР»СЏРµРј СЂР°Р·РґРµР»РёС‚РµР»Рё
 	delimiters = {
 		{Lexeme(LexemeType::Delimiter, DelimiterType::OpenBracket,  "(" )},
 		{Lexeme(LexemeType::Delimiter, DelimiterType::CloseBracket, ")" )},
@@ -27,8 +27,7 @@ LexemesTables::LexemesTables() {
 		{Lexeme(LexemeType::Delimiter, DelimiterType::CloseBrace,   "}" )},
 		{Lexeme(LexemeType::Delimiter, DelimiterType::Space,        " " )},
 		{Lexeme(LexemeType::Delimiter, DelimiterType::LineBreak,    "\n")},
-		{Lexeme(LexemeType::Delimiter, DelimiterType::Comment,      ";")},
-		
+		{Lexeme(LexemeType::Delimiter, DelimiterType::Comment,      ";" )}
 	};
 }
 
@@ -56,8 +55,8 @@ Lexeme* LexemesTables::getLexeme(int type, int subtype) {
 
 
 int LexemesTables::addVariable(Variable &variable) {
-	// TODO: нельзя добавлять существующую переменную
-	variable.subtype = variables.size(); // Устанавливаем позицию в таблице
+	// TODO: РЅРµР»СЊР·СЏ РґРѕР±Р°РІР»СЏС‚СЊ СЃСѓС‰РµСЃС‚РІСѓСЋС‰СѓСЋ РїРµСЂРµРјРµРЅРЅСѓСЋ
+	variable.subtype = variables.size(); // РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј РїРѕР·РёС†РёСЋ РІ С‚Р°Р±Р»РёС†Рµ
 	variables.push_back(variable);
 	return variables.size() - 1;
 }
@@ -75,8 +74,8 @@ Variable* LexemesTables::getVariable(string name)  {
 };
 
 int LexemesTables::addConstant(Constant &constant) {
-	// TODO: Нельзя добавлять существующую переменную
-	constant.subtype = constants.size(); // Устанавливаем позицию в таблице
+	// TODO: РќРµР»СЊР·СЏ РґРѕР±Р°РІР»СЏС‚СЊ СЃСѓС‰РµСЃС‚РІСѓСЋС‰СѓСЋ РїРµСЂРµРјРµРЅРЅСѓСЋ
+	constant.subtype = constants.size(); // РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј РїРѕР·РёС†РёСЋ РІ С‚Р°Р±Р»РёС†Рµ
 	constants.push_back(constant);
 	return constants.size() - 1;
 }
