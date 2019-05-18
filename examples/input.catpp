@@ -1,12 +1,9 @@
-int32 first = 10;
+int value = 10     ; Init var
 
-int32 second;
-second = 5;
+int result         ; Create var
 
-int32 result;
-
-if (first + second == 5) {
-    result = 1;
+if (second ?= 5) { ; Check equal
+    result = 1
 } else {
-    result = 0;
+    result = 0
 }

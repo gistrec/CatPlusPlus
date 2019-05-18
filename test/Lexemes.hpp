@@ -6,7 +6,7 @@
 
 TEST_CLASS(LexemesTest) {
 public:
-	/** Проверка функций, которые возвращают table_id и position*/
+	/** РџСЂРѕРІРµСЂРєР° С„СѓРЅРєС†РёР№, РєРѕС‚РѕСЂС‹Рµ РІРѕР·РІСЂР°С‰Р°СЋС‚ table_id Рё position*/
 	TEST_METHOD(SimpleLexemeTest) {
 		string word = "if";
 		Lexeme lexeme(LexemeType::Keyword, KeywordType::If, word);
@@ -15,7 +15,7 @@ public:
 		Assert::AreEqual(lexeme.getSubtype(), (int)KeywordType::If);
 		Assert::AreEqual(lexeme.getName(),    word);
 	}
-	
+
 	TEST_METHOD(LexemeTest) {
 		string word;
 		Lexeme sign_lexeme(LexemeType::Sign, SignType::Add, word);
@@ -38,21 +38,21 @@ public:
 		Assert::AreEqual(var.getVarType(), VariableType::Undefined);
 		Assert::AreEqual(var.isInit(),     false);
 		Assert::AreEqual(var.getData(),    (size_t) 0);
-		
-		var.setVarType(VariableType::Int);
+
+		var.setVarType(VariableType::Integer);
 		var.setData(12);
 
-		Assert::AreEqual(var.getVarType(), VariableType::Int);
+		Assert::AreEqual(var.getVarType(), VariableType::Integer);
 		Assert::AreEqual(var.getData(),    (size_t) 12);
 	}
 
 	TEST_METHOD(ConstantLexemeTest) {
 		string name = "my_constant";
-		Constant constant(name, VariableType::Int, 5);
+		Constant constant(name, VariableType::Integer, 5);
 
 		Assert::AreEqual(constant.getName(),    name);
 		Assert::AreEqual(constant.getType(),    (int)LexemeType::Const);
-		Assert::AreEqual(constant.getVarType(), VariableType::Int);
+		Assert::AreEqual(constant.getVarType(), VariableType::Integer);
 		Assert::AreEqual(constant.getData(),    (size_t) 5);
 	}
 };

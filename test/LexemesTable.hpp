@@ -4,13 +4,10 @@
 #include "../src/LexemesTables.cpp"
 
 
-using namespace Microsoft::VisualStudio::CppUnitTestFramework;
-
-
 TEST_CLASS(LexemesTablesTest) {
 public:
 
-	/** Ïîèñê â êîíñòàíòíûõ òàáëèöàõ */
+	/** ÐŸÐ¾Ð¸ÑÐº Ð² ÐºÐ¾Ð½ÑÑ‚Ð°Ð½Ñ‚Ð½Ñ‹Ñ… Ñ‚Ð°Ð±Ð»Ð¸Ñ†Ð°Ñ… */
 	TEST_METHOD(GetConstantLexemeByName) {
 		LexemesTables tables;
 
@@ -26,7 +23,7 @@ public:
 		Assert::AreEqual(lexeme->getSubtype(), (int) DelimiterType::Space);
 	}
 
-	/** Ïîèñê â êîíñòàíòíûõ òàáëèöàõ ïî id:position */
+	/** ÐŸÐ¾Ð¸ÑÐº Ð² ÐºÐ¾Ð½ÑÑ‚Ð°Ð½Ñ‚Ð½Ñ‹Ñ… Ñ‚Ð°Ð±Ð»Ð¸Ñ†Ð°Ñ… Ð¿Ð¾ id:position */
 	TEST_METHOD(GetConstantLexemeById) {
 		LexemesTables tables;
 
@@ -39,25 +36,25 @@ public:
 		Assert::IsNotNull(second);
 	}
 
-	/** Òåñòû ïåðåìåííîé */
+	/** Ð¢ÐµÑÑ‚Ñ‹ Ð¿ÐµÑ€ÐµÐ¼ÐµÐ½Ð½Ð¾Ð¹ */
 	TEST_METHOD(VariableLexemesTablesTest) {
 		LexemesTables tables;
 		string name = "my_variable";
 
-		// Ïåðåìåííîé íå ñóùåñòâóåò
+		// ÐŸÐµÑ€ÐµÐ¼ÐµÐ½Ð½Ð¾Ð¹ Ð½Ðµ ÑÑƒÑ‰ÐµÑÑ‚Ð²ÑƒÐµÑ‚
 		Variable* var_ptr = tables.getVariable(name);
 		Assert::IsNull(var_ptr);
 
-		// Äîáàâèëè ïåðåìåííóþ è ïîëó÷èëè å¸ ïîçèöèþ â òàáëèöå ïåðåìåííûõ
+		// Ð”Ð¾Ð±Ð°Ð²Ð¸Ð»Ð¸ Ð¿ÐµÑ€ÐµÐ¼ÐµÐ½Ð½ÑƒÑŽ Ð¸ Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ð»Ð¸ ÐµÑ‘ Ð¿Ð¾Ð·Ð¸Ñ†Ð¸ÑŽ Ð² Ñ‚Ð°Ð±Ð»Ð¸Ñ†Ðµ Ð¿ÐµÑ€ÐµÐ¼ÐµÐ½Ð½Ñ‹Ñ…
 		Variable var(name);
 		int position = tables.addVariable(var);
 
-		// Ïåðåìåííàÿ ñóùåñòâóåò
+		// ÐŸÐµÑ€ÐµÐ¼ÐµÐ½Ð½Ð°Ñ ÑÑƒÑ‰ÐµÑÑ‚Ð²ÑƒÐµÑ‚
 		var_ptr = tables.getVariable(name);
 		Assert::IsNotNull(var_ptr);
 		Assert::AreEqual(var_ptr->getName(), name);
 
-		// Ïîëó÷àåì ïåðåìåííóþ ïî å¸ ïîçèöèè â òàáëèöå ïåðåìåííûõ
+		// ÐŸÐ¾Ð»ÑƒÑ‡Ð°ÐµÐ¼ Ð¿ÐµÑ€ÐµÐ¼ÐµÐ½Ð½ÑƒÑŽ Ð¿Ð¾ ÐµÑ‘ Ð¿Ð¾Ð·Ð¸Ñ†Ð¸Ð¸ Ð² Ñ‚Ð°Ð±Ð»Ð¸Ñ†Ðµ Ð¿ÐµÑ€ÐµÐ¼ÐµÐ½Ð½Ñ‹Ñ…
 		var_ptr = tables.getVariable(position);
 		Assert::IsNotNull(var_ptr);
 		Assert::AreEqual(var_ptr->getName(), name);

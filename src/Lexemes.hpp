@@ -11,7 +11,7 @@ using std::string;
  * Const - константа
  * Var   - переменная
  */
-enum LexemeType : int { Keyword = 0, Sign = 1, Delimiter = 2, Var = 3, Const = 4};
+enum LexemeType : int { Keyword, Sign, Delimiter, Var, Const };
 struct Lexeme {
 	int type;
 	int subtype; // Одно из KeywordType::, SignType::, DelimiterType::
@@ -24,8 +24,8 @@ struct Lexeme {
 		name(name)
 	{};
 
-	int    getType()     { return type;    }
-	int    getSubtype()  { return subtype; }
+	int    getType()     { return type;    } // Получить номер таблицы
+	int    getSubtype()  { return subtype; } // Получить позицию в таблице
 	int    getPosition() { return subtype; }
 	string getName()     { return name;    }
 
@@ -34,11 +34,10 @@ struct Lexeme {
 
 
 
-enum KeywordType   : int { If, Else, For, While };
-enum SignType      : int { Add, Sub, Mul, Div, Equal, isEqual };
-enum DelimiterType : int { OpenBracket, CloseBracket, Space, Semicolon };
-
-enum VariableType  : int { Undefined, Int, Float };
+enum KeywordType   : int { Int, If, Else };
+enum SignType      : int { Add, Sub, Mul, isEqual, isNoEqual, isLess, Equal };
+enum DelimiterType : int { OpenBracket, CloseBracket, OpenBrace, CloseBrace, Space, LineBreak, Comment };
+enum VariableType  : int { Undefined, Integer };
 
 
 
