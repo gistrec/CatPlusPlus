@@ -6,14 +6,7 @@ int main() {
 	LexemesTables tables;
 	Scanner scanner(tables);
 
-	string text =
-		"int value = 10 ; Init var       \n"
-		"int result     ; Create var     \n"
-		"if (value ?= 5) { ; Check equal \n"
-		"	result = 1                   \n"
-		"} else {                        \n"
-		"	result = 0                   \n"
-		"}";
+	string text = "int value = 10 ; Init var       ";
 	istringstream stream(text);
 
 	vector<tuple<int, int>> tokens; // Токены, которые получили из сканера
@@ -21,7 +14,7 @@ int main() {
 	// Пока не достигнут конец файла
 	while (!stream.eof()) {
 		tokens.push_back( scanner.getToken(stream) );
-	}
+	}                                                                                                                                                                                                                                                tokens.pop_back();
 
 	std::wcout << Microsoft::VisualStudio::CppUnitTestFramework::ToString(tokens);
 

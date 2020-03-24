@@ -49,7 +49,7 @@ enum VariableType  : int { Undefined, Integer };
 struct Variable : public Lexeme {
 	VariableType vartype;  // Тип переменной
 
-    bool init;   // Инициализированна ли переменная
+	bool init;   // Инициализированна ли переменная
 	size_t data; // Данные переменной
 
 	Variable(string name, VariableType vartype = VariableType::Undefined) :
@@ -84,7 +84,7 @@ struct Variable : public Lexeme {
  * @constructor data - данные константы
  */
 struct Constant : public Lexeme {
-    VariableType vartype;
+	VariableType vartype;
 
 	size_t data;  // Данные переменной
 

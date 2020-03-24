@@ -5,7 +5,7 @@
 #include <algorithm> /** all_off */
 
 #define sizeof(CharType) 6
-#define sizeof(State) 6
+#define sizeof(State) 8
 
 
 using std::tuple;
@@ -48,7 +48,9 @@ private:
     /* ReadConst  */ { ReadConst, Error     , End      , ReadSymbol, End      , End     },
     /* ReadSymbol */ { Error    , ReadSymbol, End      , ReadSymbol, End      , End     },
     /* ReadDelim  */ { End      , End       , End      , End       , End      , End     },
-    /* Comment    */ { Comment  , Comment   , Comment  , Comment   , Comment  , End     }
+    /* Comment    */ { Comment  , Comment   , Comment  , Comment   , Comment  , End     },
+    { Error    , Error, Error      , Error, Error      , Error     },
+    { Error    , Error, Error      , Error, Error      , Error     }
     };
 
     State state;   // Текущее состояние конечного автомата
@@ -67,9 +69,18 @@ private:
 
         // Если закончился текст
         if (stream.eof()) {
+            type = Const;
             state = State::End;
             return;
         }
+
+        if ((symbol < 0 || symbol > 254) && symbol != ' ') {
+            std::cout << "Not found symbol" << std::endl;
+            state = State::Error;
+            return;
+        }
+
+
 
         static vector<char> Delims = { ' ', '(', ')', '{', '}' };       // Разделители
         static vector<char> op = { '?', '!', '=', '<', '+', '-', '*' }; // Арифметические операторы
@@ -101,6 +112,7 @@ private:
             case State::Start:
                 str = "";
                 symbol = ' ';
+                type = CharType::Delim;
 
                 skipSpace(stream); // Считываем символ
                 state = transitions[state][type]; // Переводим в новое состояние
