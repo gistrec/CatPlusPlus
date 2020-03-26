@@ -4,8 +4,8 @@
 #include <iostream>
 #include <algorithm> /** all_off */
 
-#define sizeof(CharType) 6
-#define sizeof(State) 8
+#define CharTypeSize 6
+#define StateSize 8
 
 
 using std::tuple;
@@ -41,7 +41,7 @@ private:
     };
 
     // Граф переходов
-    State transitions[sizeof(State)][sizeof(CharType)] = {
+    State transitions[StateSize][CharTypeSize] = {
     /*                 Const    , Symbol    , Delim    , Operator  , Semicolon, LineBreak    */
     /* Start      */ { ReadConst, ReadSymbol, ReadDelim, ReadSign  , Comment  , Start   },
     /* ReadSign   */ { End      , End       , End      , ReadSign  , End      , End     },
@@ -49,8 +49,8 @@ private:
     /* ReadSymbol */ { Error    , ReadSymbol, End      , ReadSymbol, End      , End     },
     /* ReadDelim  */ { End      , End       , End      , End       , End      , End     },
     /* Comment    */ { Comment  , Comment   , Comment  , Comment   , Comment  , End     },
-    { Error    , Error, Error      , Error, Error      , Error     },
-    { Error    , Error, Error      , Error, Error      , Error     }
+                     { Error    , Error     , Error    , Error     , Error    , Error   },
+                     { Error    , Error     , Error    , Error     , Error    , Error   }
     };
 
     State state;   // Текущее состояние конечного автомата
@@ -69,17 +69,16 @@ private:
 
         // Если закончился текст
         if (stream.eof()) {
-            type = Const;
             state = State::End;
             return;
         }
 
+        // TODO: Обработка неожиданного символа, например из другой раскладки
         if ((symbol < 0 || symbol > 254) && symbol != ' ') {
-            std::cout << "Not found symbol" << std::endl;
+            std::cout << "[Error] unexpected symbol: " << symbol << std::endl;
             state = State::Error;
             return;
         }
-
 
 
         static vector<char> Delims = { ' ', '(', ')', '{', '}' };       // Разделители
@@ -213,10 +212,11 @@ public:
             process(stream);
         }
 
-        // Если ошибка
-        if (state == State::Error) return { -1 , -1 };
         // Если закончился файл
         if (stream.eof()) return { LexemeType::Delimiter, DelimiterType::LineBreak };
+
+        // Если ошибка
+        if (state == State::Error) return { -1 , -1 };
 
         return getLexeme();
     }

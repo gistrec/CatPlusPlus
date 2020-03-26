@@ -1,7 +1,7 @@
 #pragma once
 #include "stdafx.hpp"
 
-#include "../src/LexemesTables.cpp"
+#include "../src/LexemesTables.hpp"
 
 
 TEST_CLASS(LexemesTablesTest) {

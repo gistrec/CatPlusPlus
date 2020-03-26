@@ -1,11 +1,12 @@
 #pragma once
 #include "stdafx.hpp"
 
-#include "../src/LexemesTables.hpp"
+#include "../src/LexemesTables.cpp"
 
 
 TEST_CLASS(LexemesTest) {
 public:
+
 	/** Проверка функций, которые возвращают table_id и position*/
 	TEST_METHOD(SimpleLexemeTest) {
 		string word = "if";

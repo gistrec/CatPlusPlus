@@ -66,6 +66,7 @@ Variable* LexemesTables::getVariable(int position) {
 
 	return &(variables[position]);
 }
+
 Variable* LexemesTables::getVariable(string name)  {
 	for (auto &variable : variables) {
 		if (variable.getName() == name) return &variable;
@@ -85,6 +86,7 @@ Constant* LexemesTables::getConstant(int position)  {
 
 	return &constants[position];
 }
+
 Constant* LexemesTables::getConstant(string name) {
 	for (auto &constant : constants) {
 		if (constant.getName() == name) return &constant;
